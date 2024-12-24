@@ -11,14 +11,14 @@ def generate_image(prompts):
     
     print("Your api key is " + image_api_key)
     
-    client = InferenceClient("ZB-Tech/Text-to-Image", token=image_api_key)
-    # client = InferenceClient("black-forest-labs/FLUX.1-dev", token=image_api_key)
+    # client = InferenceClient("ZB-Tech/Text-to-Image", token=image_api_key)
+    client = InferenceClient("black-forest-labs/FLUX.1-dev", token=image_api_key)
     
     output = []
     
     for i in range(len(prompts)):
         output.append(client.text_to_image(prompts[i]))
-        # if i < len(prompts) - 1:
-        #     sleep(30)
+        if i < len(prompts) - 1:
+            sleep(30)
 
     return output

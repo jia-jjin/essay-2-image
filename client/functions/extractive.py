@@ -3,7 +3,7 @@ import string
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize, sent_tokenize 
 
-def extractive(text):
+def extractive(text, max_sentences, min_relevance):
     stopWords = set(stopwords.words("english")) 
     words = word_tokenize(text) 
        
@@ -28,19 +28,21 @@ def extractive(text):
                 else: 
                     sentenceValue[sentence] = freq 
        
-       
-       
     sumValues = 0
     for sentence in sentenceValue: 
         sumValues += sentenceValue[sentence] 
        
-    average = int(sumValues / len(sentenceValue)) 
        
     summary = '' 
-    prompts = []
-    for sentence in sentences: 
-        if (sentence in sentenceValue) and (sentenceValue[sentence] > (1.5 * average)): 
-            summary += sentence + " "
-            prompts.append(sentence)
+    if min_relevance != None:
+        average = int(sumValues / len(sentenceValue)) 
+        for sentence in sentences: 
+            if (sentence in sentenceValue) and (sentenceValue[sentence] > (min_relevance * average)): 
+                summary += sentence + " "
+    else:
+        selectedSentences = list(map(lambda x: x[0],sorted(sentenceValue.items(), reverse=True, key=lambda x: x[1])))[:max_sentences]
+        for sentence in sentences: 
+            if (sentence in sentenceValue) and (sentence in selectedSentences): 
+                summary += sentence + " "
 
     return summary, sentenceValue
