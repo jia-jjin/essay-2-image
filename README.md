@@ -5,8 +5,8 @@ This machine learning project translates words or essays into stunning and infor
 Incorporating relevant visuals into presentations can significantly enhance audience engagement and understanding. This project leverages machine learning to automatically generate images and summaries based on users' preferences.
 
 ## Features
-Text-to-Image Generation: Converts important sentences in generated summary into corresponding images.
-Customizable Outputs: Allows adjustments to image and summarizing style based on user preferences.
+- Text-to-Image Generation: Converts important sentences in generated summary into corresponding images.
+- Customizable Outputs: Allows adjustments to image and summarizing style based on user preferences.
 
 ## Installation
 
@@ -42,4 +42,4 @@ streamlit run client/home.py
 7. Click on the submit button and watch as the magic unfolds itself.
 
 ## Credits
-- Thanks to GeeksForGeeks for their step-by-step guides
+Thanks to GeeksForGeeks and other websites for their step-by-step guides.
