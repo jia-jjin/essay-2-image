@@ -1,4 +1,5 @@
 import streamlit as st
+import math
 import pandas as pd
 from functions.extractive import extractive
 from functions.sentiment import sentiment
@@ -10,6 +11,9 @@ if "listened" not in st.session_state:
     
 if "text" not in st.session_state:
     st.session_state.text = ""
+    
+if "api_key" not in st.session_state:
+    st.session_state.api_key = ""
 
 def on_listen():
     st.session_state.listened = True
@@ -44,7 +48,7 @@ if summarizer == "Extractive":
 
 with st.form("main"):
 
-    images_num = st.slider("Number of images", 0, 3, 0)
+    images_num = st.slider("Maximum number of images", 0, 3, 0)
 
     generator_type = st.radio(
         "Generator model",
@@ -59,7 +63,8 @@ with st.form("main"):
     )
 
     api_key = st.text_input(
-        "Hugging Face API Key (please grant access to use FLUX.1-dev using link at the bottom)"
+        "Hugging Face API Key (please grant access to use FLUX.1-dev using link at the bottom)",
+        st.session_state.api_key
     )
         
     link = "https://huggingface.co/black-forest-labs/FLUX.1-dev"
@@ -85,29 +90,24 @@ if submit or st.session_state.listened:
     
     f"Total word length: {len(text.split())}"
 
+    st.session_state['api_key'] = api_key
     st.session_state['text'] = text
 
     try:
+        if images_num > 0:
+            st.write("## Images")
+            imageRow = st.columns(3)
+        
         if summarizer == 'Extractive':
             summary, sentenceValues = extractive(text, max_sentences, min_relevance)
-            if images_num > 0:
-                sentenceValuesSorted = list(map(lambda x: x[0],sorted(sentenceValues.items(), reverse=True, key=lambda x: x[1])))
-                images = generate_image(sentenceValuesSorted[:images_num], generator_type, api_key)
-                st.write("## Images")
-                imageRow = st.columns(3)
-                for i in range(images_num):
-                    imageRow[i].image(images[i])
-            
+                
         elif summarizer == 'Sentiment':
             summary, emotions, keywords = sentiment(text)
-            
-            st.write("## Overall emotions")
-            for i in range(len(emotions)):
-                st.write(f"{i+1}. {emotions[i]['label']} ({round(emotions[i]['score'] * 100, 2)}%)")
+
+            _, sentenceValues = extractive(summary, 1000000)
+            # if images_num > 0:
                 
-            st.write("## Top key words/phrases")
-            for i in range(len(keywords[:10])):
-                st.write(f"{i+1}. {keywords[i]}")
+            #     images = generate_image(selected_sentences[:images_num], generator_type, api_key)
                 
         col1, col2 = st.columns([3,1], vertical_alignment='bottom')
         st.write(summary)
@@ -116,6 +116,21 @@ if submit or st.session_state.listened:
         with col2:
             if st.button("Listen 🔉", use_container_width=True, on_click=on_listen):
                 text_to_speech(summary)
+
+        if images_num > 0:
+            sentenceValuesSorted = list(map(lambda x: x[0],sorted(sentenceValues.items(), reverse=True, key=lambda x: x[1])))
+            images = generate_image(sentenceValuesSorted[:images_num], generator_type, api_key)
+        for i in range(images_num):
+            imageRow[i].image(images[i])
+
+        if summarizer == 'Sentiment':
+            st.write("## Overall emotions")
+            for i in range(len(emotions)):
+                st.write(f"{i+1}. {emotions[i]['label']} ({round(emotions[i]['score'] * 100, 2)}%)")
+                
+            st.write("## Top key words/phrases")
+            for i in range(len(keywords)):
+                st.write(f"{i+1}. {keywords[i]}")
 
     except Exception as e:
         st.error(e)

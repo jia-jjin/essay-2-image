@@ -21,7 +21,7 @@ def sentiment(t):
     def extract_keywords(text):
         rake = Rake()
         rake.extract_keywords_from_text(text)
-        return rake.get_ranked_phrases()
+        return list({e:None for e in rake.get_ranked_phrases()}.keys())
 
     @st.cache_data
     def splitTextIntoChunks(text, chunk_size=1024):

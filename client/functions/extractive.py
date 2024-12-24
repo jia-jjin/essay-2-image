@@ -5,7 +5,7 @@ from nltk.tokenize import word_tokenize, sent_tokenize
 import streamlit as st
 
 @st.cache_data
-def extractive(text, max_sentences, min_relevance):
+def extractive(text, max_sentences=None, min_relevance=None):
     stopWords = set(stopwords.words("english")) 
     words = word_tokenize(text) 
        
