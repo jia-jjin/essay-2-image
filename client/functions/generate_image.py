@@ -2,17 +2,23 @@ from dotenv import load_dotenv
 import os
 from huggingface_hub import InferenceClient
 from time import sleep
+import streamlit as st
 
-def generate_image(prompts):
+@st.cache_data
+def generate_image(prompts, generator_type, image_api_key):
     
-    load_dotenv()
+    # load_dotenv()
 
-    image_api_key = os.getenv("HUGGING_FACE_API")
-    
-    print("Your api key is " + image_api_key)
-    
-    # client = InferenceClient("ZB-Tech/Text-to-Image", token=image_api_key)
-    client = InferenceClient("black-forest-labs/FLUX.1-dev", token=image_api_key)
+    # if not image_api_key:
+    #     image_api_key = os.getenv("HUGGING_FACE_API")
+
+    if generator_type == "black-forest-labs/FLUX.1-dev" and not image_api_key:
+        raise Exception("No API key provided to execute image generation using black-forest-labs/FLUX.1-dev.")
+
+    if generator_type == "black-forest-labs/FLUX.1-dev":
+        client = InferenceClient(generator_type, token=image_api_key)
+    else:
+        client = InferenceClient(generator_type)
     
     output = []
     
