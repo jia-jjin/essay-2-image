@@ -78,6 +78,11 @@ with st.form("main"):
 
 
 if submit or st.session_state.listened:
+
+    if not text:
+        st.error("No text provided.")
+        st.stop()
+    
     f"Total word length: {len(text.split())}"
 
     st.session_state['text'] = text
