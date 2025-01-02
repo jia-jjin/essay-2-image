@@ -8,6 +8,15 @@ Incorporating relevant visuals into presentations can significantly enhance audi
 - Text-to-Image Generation: Converts important sentences in generated summary into corresponding images.
 - Customizable Outputs: Allows adjustments to image and summarizing style based on user preferences.
 
+## Breakthroughs
+What are the actual impactful things I have accomplished in this project?
+
+As what I have mentioned, this project is used to sumamrize long essays into short and concise summaries. Based on the ranking or importances, the code automatically selects the sentences that best represent the whole summary.
+
+A lot of people have already achieved the milestone of creating models that automatically summarizes essays, but what I have done that makes a huge impact is creating a model that converts the sentences into effective and detailed prompts.
+
+Why is this important? A detailed prompt is to ensure that the images generated conveys the intended meanings during presentations or even meetings. This is utmost important since wrong images might be misleading and potentially cause misunderstanding or loss of great opportunities.
+
 ## Installation
 
 Clone the repository:
