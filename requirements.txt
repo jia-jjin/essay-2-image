@@ -1,0 +1,9 @@
+streamlit
+transformers
+nltk
+huggingface_hub
+pyttsx3
+pyaudio
+speechrecognition
+rake_nltk
+spacy
