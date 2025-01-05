@@ -36,11 +36,7 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 4. Ensure you have a trained model:
-Download the model from [this link](https://drive.google.com/file/d/1lH50QV4L4nXwPFSc1BYMhlMPdr5FYDwA/view?usp=sharing) and place it in `models/`.
-
-**OR**
-
-Prepare your own data in `prompts_scraping.ipynb`, save the data, and train your own model in `model_training_Seq2Seq.ipynb`.
+Download the model from [this link](https://drive.google.com/file/d/1lH50QV4L4nXwPFSc1BYMhlMPdr5FYDwA/view?usp=sharing) and place it in `models/`, or prepare your own data in `prompts_scraping.ipynb`, save the data, and train your own model in `model_training_Seq2Seq.ipynb`.
 
 ## Usage
 
