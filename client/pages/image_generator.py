@@ -45,14 +45,10 @@ if submit:
     st.session_state['api_key'] = api_key
 
     try:
-        if images_num > 0:
-            st.write("## Images")
-            imageRow = st.columns(3)
-        
-            image_prompts = [generate_prompt(text)]
-            images = generate_image(image_prompts, generator_type, api_key)
-        for i in range(images_num):
-            imageRow[i].image(images[i])
+        st.write("## Images")
+        images = generate_image([text], generator_type, api_key)
+        for i in range(len(images)):
+            st.image(images[i])
 
     except Exception as e:
         st.error(e)
